@@ -2,7 +2,7 @@
 // vim: set ts=4 sw=4 sts=4 et:
 
 /*
- * Copyright (C) 2015 E-ComProcessing Ltd.
+ * Copyright (C) 2015 E-Comprocessing™
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  *
  * @author      E-ComProcessing
- * @copyright   2015 E-ComProcessing Ltd.
+ * @copyright   2015 E-Comprocessing™
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU General Public License, version 2 (GPL-2.0)
  */
 
@@ -33,9 +33,7 @@ class TransactionTypes extends \XLite\View\FormField\Select\Multiple
      */
     protected function getDefaultOptions()
     {
-        if (!class_exists('\Genesis\Genesis', true)) {
-            include_once LC_DIR_MODULES . '/EComProcessing/Genesis/Library/Genesis/vendor/autoload.php';
-        }
+        require_once LC_DIR_MODULES . '/EComProcessing/Genesis/Library/Genesis/vendor/autoload.php';
 
         return array(
             \Genesis\API\Constants\Transaction\Types::AUTHORIZE     => static::t('Authorize'),

@@ -2,7 +2,7 @@
 // vim: set ts=4 sw=4 sts=4 et:
 
 /*
- * Copyright (C) 2015 E-ComProcessing Ltd.
+ * Copyright (C) 2015 E-Comprocessing™
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  *
  * @author      E-ComProcessing
- * @copyright   2015 E-ComProcessing Ltd.
+ * @copyright   2015 E-Comprocessing™
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU General Public License, version 2 (GPL-2.0)
  */
 
@@ -55,6 +55,11 @@ class EComProcessingCheckout extends \XLite\Model\Payment\Base\Online
      * @var string
      */
     const REF_TKN = 'terminal_token';
+
+    /**
+     * Supported languages
+     */
+    private $supported_languages = array('en', 'es', 'fr', 'de', 'it', 'ja', 'zh', 'ar', 'pt', 'tr', 'ru', 'bg', 'hi');
 
     /**
      * Get allowed backend transactions
@@ -181,7 +186,8 @@ class EComProcessingCheckout extends \XLite\Model\Payment\Base\Online
 
             $data = $this->collectInitialPaymentData();
 
-            $genesis->request()
+            $genesis
+                ->request()
                     ->setTransactionId($data['transaction_id'])
                     ->setAmount($data['amount'])
                     ->setCurrency($data['currency'])
@@ -212,6 +218,12 @@ class EComProcessingCheckout extends \XLite\Model\Payment\Base\Online
 
             foreach ($data['transaction_types'] as $transaction_type) {
                 $genesis->request()->addTransactionType(trim($transaction_type));
+            }
+
+            if (in_array(\XLite\Core\Session::getInstance()->getLanguage()->getCode(), $this->supported_languages)) {
+                $genesis->request()->setLanguage(
+                    \XLite\Core\Session::getInstance()->getLanguage()->getCode()
+                );
             }
 
             $genesis->execute();
@@ -567,6 +579,8 @@ class EComProcessingCheckout extends \XLite\Model\Payment\Base\Online
                 'status' => $status,
             )
         );
+
+        exit(0);
     }
 
 
@@ -830,7 +844,7 @@ class EComProcessingCheckout extends \XLite\Model\Payment\Base\Online
      */
     protected function redirectToURL($url)
     {
-        static::log('redirectToURL(): ' . $url);
+        static::log('redirectToURL: ' . $url);
 
         $page = <<<HTML
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">

@@ -2,7 +2,7 @@
 // vim: set ts=4 sw=4 sts=4 et:
 
 /*
- * Copyright (C) 2015 E-ComProcessing Ltd.
+ * Copyright (C) 2015 E-Comprocessing™
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  *
  * @author      E-ComProcessing
- * @copyright   2015 E-ComProcessing Ltd.
+ * @copyright   2015 E-Comprocessing™
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU General Public License, version 2 (GPL-2.0)
  */
 
@@ -35,7 +35,7 @@ abstract class Main extends \XLite\Module\AModule
      */
     public static function getAuthorName()
     {
-        return 'E-ComProcessing Ltd.';
+        return 'E-Comprocessing';
     }
 
     /**
@@ -55,7 +55,7 @@ abstract class Main extends \XLite\Module\AModule
      */
     public static function getMajorVersion()
     {
-        return '5.1';
+        return '5.2';
     }
 
     /**
@@ -65,17 +65,7 @@ abstract class Main extends \XLite\Module\AModule
      */
     public static function getMinorVersion()
     {
-        return '2';
-    }
-
-    /**
-     * Return link to settings form
-     *
-     * @return string
-     */
-    public static function getSettingsForm()
-    {
-        return null;
+        return '1';
     }
 
     /**
