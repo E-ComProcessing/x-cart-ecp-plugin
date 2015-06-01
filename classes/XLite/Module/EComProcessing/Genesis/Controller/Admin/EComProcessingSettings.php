@@ -23,7 +23,7 @@ namespace XLite\Module\EComProcessing\Genesis\Controller\Admin;
  *
  * @package XLite\Module\EComProcessing\Genesis\Controller\Admin
  */
-class EComProcessingSettings extends \XLite\Controller\Admin\AAdmin
+class EcomprocessingSettings extends \XLite\Controller\Admin\AAdmin
 {
     /**
      * Module Path
@@ -44,7 +44,7 @@ class EComProcessingSettings extends \XLite\Controller\Admin\AAdmin
      */
     public function getTitle()
     {
-        return static::t('E-ComProcessing settings');
+        return static::t('E-ComProcessing Settings');
     }
 
     /**

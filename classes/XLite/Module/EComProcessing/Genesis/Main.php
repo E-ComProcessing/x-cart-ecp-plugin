@@ -1,6 +1,4 @@
 <?php
-// vim: set ts=4 sw=4 sts=4 et:
-
 /*
  * Copyright (C) 2015 E-Comprocessing™
  *
@@ -26,6 +24,9 @@ namespace XLite\Module\EComProcessing\Genesis;
  */
 abstract class Main extends \XLite\Module\AModule
 {
+    /**
+     * Name of the E-ComProcessing Checkout method
+     */
     const ECP_CHECKOUT = 'EComProcessingCheckout';
 
     /**
