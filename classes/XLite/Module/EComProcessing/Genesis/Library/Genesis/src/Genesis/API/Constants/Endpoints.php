@@ -20,61 +20,28 @@
  *
  * @license     http://opensource.org/licenses/MIT The MIT License
  */
-namespace Genesis;
+namespace Genesis\API\Constants;
 
 /**
- * Builder handler
+ * Class Endpoints
  *
- * @package    Genesis
- * @subpackage Builders
+ * List of possible Genesis endpoints
+ *
+ * @package Genesis\API\Constants
  */
-class Builder
+class Endpoints
 {
     /**
-     * Instance of the selected builder wrapper
+     * Domain for E-ComProcessing's Genesis instance
      *
-     * @var object
+     * @link http://www.e-comprocessing.com/
      */
-    private $context;
+    const ECOMPROCESSING    = 'e-comprocessing.net';
 
     /**
-     * Initialize the required builder, based on the use's
-     * preference (set inside the configuration ini file)
+     * Domain for eMerchantPay's Genesis instance
      *
-     * @param string $interface
+     * @link https://www.emerchantpay.com
      */
-    public function __construct($interface = null)
-    {
-        $interface = $interface ?: \Genesis\Config::getInterface('builder');
-
-        switch ($interface) {
-            default:
-            case 'xml':
-                $this->context = new Builders\XML();
-                break;
-            case 'json':
-                $this->context = new Builders\JSON();
-                break;
-        }
-    }
-
-    /**
-     * Get the printable Builder Output
-     *
-     * @return string
-     */
-    public function getDocument()
-    {
-        return $this->context->getOutput();
-    }
-
-    /**
-     * Parse tree-structure into Builder document
-     *
-     * @param array $structure
-     */
-    public function parseStructure(array $structure)
-    {
-        $this->context->populateNodes($structure);
-    }
+    const EMERCHANTPAY      = 'emerchantpay.net';
 }

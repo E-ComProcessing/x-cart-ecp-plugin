@@ -20,61 +20,70 @@
  *
  * @license     http://opensource.org/licenses/MIT The MIT License
  */
-namespace Genesis;
+namespace Genesis\API\Constants\Payment;
 
 /**
- * Builder handler
+ * Class Methods
  *
- * @package    Genesis
- * @subpackage Builders
+ * Payment methods for Genesis Transactions
+ *
+ * @package Genesis\API\Constants\Transaction
  */
-class Builder
+class Methods
 {
     /**
-     * Instance of the selected builder wrapper
+     * e-payment standard
      *
-     * @var object
+     * PPRO transaction
      */
-    private $context;
+    const EPS = 'eps';
 
     /**
-     * Initialize the required builder, based on the use's
-     * preference (set inside the configuration ini file)
+     * GiroPay
      *
-     * @param string $interface
+     * PPRO transaction
      */
-    public function __construct($interface = null)
-    {
-        $interface = $interface ?: \Genesis\Config::getInterface('builder');
-
-        switch ($interface) {
-            default:
-            case 'xml':
-                $this->context = new Builders\XML();
-                break;
-            case 'json':
-                $this->context = new Builders\JSON();
-                break;
-        }
-    }
+    const GIRO_PAY = 'giropay';
 
     /**
-     * Get the printable Builder Output
+     * iDEAL
      *
-     * @return string
+     * PPRO transaction
      */
-    public function getDocument()
-    {
-        return $this->context->getOutput();
-    }
+    const IDEAL = 'ideal';
 
     /**
-     * Parse tree-structure into Builder document
+     * Przelewy24
      *
-     * @param array $structure
+     * PPRO transaction
      */
-    public function parseStructure(array $structure)
-    {
-        $this->context->populateNodes($structure);
-    }
+    const PRZELEWY24 = 'przelewy24';
+
+    /**
+     * QIWI
+     *
+     * PPRO transaction
+     */
+    const QIWI = 'qiwi';
+
+    /**
+     * SafetyPay
+     *
+     * PPRO transaction
+     */
+    const SAFETY_PAY = 'safetypay';
+
+    /**
+     * Teleingreso
+     *
+     * PPRO transaction
+     */
+    const TELEINGRESO = 'teleingreso';
+
+    /**
+     * TrustPay
+     *
+     * PPRO transaction
+     */
+    const TRUST_PAY = 'trustpay';
 }

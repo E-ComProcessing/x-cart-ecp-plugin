@@ -20,61 +20,33 @@
  *
  * @license     http://opensource.org/licenses/MIT The MIT License
  */
-namespace Genesis;
+namespace Genesis\API\Request\NonFinancial\Retrieve;
 
 /**
- * Builder handler
+ * Class AbniDealBanks
  *
- * @package    Genesis
- * @subpackage Builders
+ * Retrieve the available Banks for iDEAL payment via ABN
+ *
+ * @package Genesis\API\Request\NonFinancial\Retrieve
  */
-class Builder
+class AbniDealBanks extends \Genesis\API\Request
 {
     /**
-     * Instance of the selected builder wrapper
+     * Set the per-request configuration
      *
-     * @var object
+     * @return void
      */
-    private $context;
-
-    /**
-     * Initialize the required builder, based on the use's
-     * preference (set inside the configuration ini file)
-     *
-     * @param string $interface
-     */
-    public function __construct($interface = null)
+    protected function initConfiguration()
     {
-        $interface = $interface ?: \Genesis\Config::getInterface('builder');
+        $this->config = \Genesis\Utils\Common::createArrayObject(
+            array(
+                'protocol' => 'https',
+                'port'     => 443,
+                'type'     => 'GET',
+                'format'   => 'plain',
+            )
+        );
 
-        switch ($interface) {
-            default:
-            case 'xml':
-                $this->context = new Builders\XML();
-                break;
-            case 'json':
-                $this->context = new Builders\JSON();
-                break;
-        }
-    }
-
-    /**
-     * Get the printable Builder Output
-     *
-     * @return string
-     */
-    public function getDocument()
-    {
-        return $this->context->getOutput();
-    }
-
-    /**
-     * Parse tree-structure into Builder document
-     *
-     * @param array $structure
-     */
-    public function parseStructure(array $structure)
-    {
-        $this->context->populateNodes($structure);
+        $this->setApiConfig('url', $this->buildRequestURL('gateway', 'retrieve_abn_ideal_banks', false));
     }
 }

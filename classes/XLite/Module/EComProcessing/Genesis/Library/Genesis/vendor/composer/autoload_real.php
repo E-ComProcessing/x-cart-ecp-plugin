@@ -20,13 +20,14 @@
  *
  * @license     http://opensource.org/licenses/MIT The MIT License
  */
+namespace Genesis;
 
 /**
  * Setup the namespaces and class loaders
  *
  * @class GenesisAutoLoader
  */
-class GenesisAutoLoader
+class AutoLoader
 {
     private static $loader;
 
@@ -45,9 +46,9 @@ class GenesisAutoLoader
             return self::$loader;
         }
 
-        spl_autoload_register(array('GenesisAutoLoader', 'loadClassLoader'), true, true);
+        spl_autoload_register(array('\Genesis\AutoLoader', 'loadClassLoader'), true, true);
         self::$loader = $loader = new \Composer\Autoload\ClassLoader();
-        spl_autoload_unregister(array('GenesisAutoLoader', 'loadClassLoader'));
+        spl_autoload_unregister(array('\Genesis\AutoLoader', 'loadClassLoader'));
 
         $map = require __DIR__ . '/autoload_namespaces.php';
         foreach ($map as $namespace => $path) {

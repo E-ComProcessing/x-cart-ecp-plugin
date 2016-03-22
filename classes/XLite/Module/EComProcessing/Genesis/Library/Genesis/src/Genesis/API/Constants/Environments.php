@@ -20,61 +20,26 @@
  *
  * @license     http://opensource.org/licenses/MIT The MIT License
  */
-namespace Genesis;
+namespace Genesis\API\Constants;
 
 /**
- * Builder handler
+ * Class Environments
  *
- * @package    Genesis
- * @subpackage Builders
+ * List of server environments
+ *
+ * @package Genesis\API\Constants
  */
-class Builder
+class Environments
 {
     /**
-     * Instance of the selected builder wrapper
-     *
-     * @var object
+     * Live (Production) environment
      */
-    private $context;
+    const PRODUCTION    = 'production';
 
     /**
-     * Initialize the required builder, based on the use's
-     * preference (set inside the configuration ini file)
+     * Test (Staging) environment
      *
-     * @param string $interface
+     * @note NO MONEY ARE BEING TRANSFERRED
      */
-    public function __construct($interface = null)
-    {
-        $interface = $interface ?: \Genesis\Config::getInterface('builder');
-
-        switch ($interface) {
-            default:
-            case 'xml':
-                $this->context = new Builders\XML();
-                break;
-            case 'json':
-                $this->context = new Builders\JSON();
-                break;
-        }
-    }
-
-    /**
-     * Get the printable Builder Output
-     *
-     * @return string
-     */
-    public function getDocument()
-    {
-        return $this->context->getOutput();
-    }
-
-    /**
-     * Parse tree-structure into Builder document
-     *
-     * @param array $structure
-     */
-    public function parseStructure(array $structure)
-    {
-        $this->context->populateNodes($structure);
-    }
+    const STAGING       = 'sandbox';
 }
