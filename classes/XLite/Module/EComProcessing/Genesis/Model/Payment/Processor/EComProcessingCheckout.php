@@ -1177,6 +1177,18 @@ HTML;
     }
 
     /**
+     * Get the Checkout Template Path
+     *
+     * $param \XLite\Model\Payment\Method $method
+     *
+     * @return string
+     */
+    public function getCheckoutTemplate(\XLite\Model\Payment\Method $method)
+    {
+        return 'modules/EComProcessing/Genesis/checkout/ecomprocessingCheckout.tpl';
+    }
+
+    /**
      * Load Genesis library
      *
      * @throws \Exception
