@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2015 E-Comprocessing™
+ * Copyright (C) 2016 E-Comprocessing™
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  *
  * @author      E-ComProcessing
- * @copyright   2015 E-Comprocessing™
+ * @copyright   2016 E-Comprocessing™
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU General Public License, version 2 (GPL-2.0)
  */
 
@@ -36,7 +36,7 @@ abstract class Main extends \XLite\Module\AModule
      */
     public static function getAuthorName()
     {
-        return 'E-Comprocessing';
+        return 'E-ComProcessing';
     }
 
     /**
@@ -76,13 +76,13 @@ abstract class Main extends \XLite\Module\AModule
      */
     public static function getDescription()
     {
-        return 'Enables taking credit card payments for your online store via eMerchantPay\'s - Genesis payment gateway.';
+        return 'Allows you to receive credit-card payments via E-Comprocessing\'s - Genesis payment gateway.';
     }
 
     /**
      * The module is defined as the payment module
      *
-     * @return integer|null
+     * @return int|null
      */
     public static function getModuleType()
     {
@@ -92,8 +92,8 @@ abstract class Main extends \XLite\Module\AModule
     /**
      * Returns payment method
      *
-     * @param string  $serviceName Service name
-     * @param boolean $enabled     Enabled status OPTIONAL
+     * @param string  $service_name Service name
+     * @param boolean $enabled      Enabled status OPTIONAL
      *
      * @return \XLite\Model\Payment\Method
      */
@@ -112,7 +112,7 @@ abstract class Main extends \XLite\Module\AModule
     }
 
     /**
-     * Returns true if eMerchantPayCheckout payment is enabled
+     * Returns true if EComProcessingCheckout payment is enabled
      *
      * @param \XLite\Model\Cart $order Cart object OPTIONAL
      *

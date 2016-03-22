@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2015 E-Comprocessing™
+ * Copyright (C) 2016 E-Comprocessing™
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  *
  * @author      E-ComProcessing
- * @copyright   2015 E-Comprocessing™
+ * @copyright   2016 E-Comprocessing™
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU General Public License, version 2 (GPL-2.0)
  */
 
@@ -215,7 +215,17 @@ class EComProcessingCheckout extends \XLite\Model\Payment\Base\Online
                     ->setShippingCountry($data['shipping']['country']);
 
             foreach ($data['transaction_types'] as $transaction_type) {
-                $genesis->request()->addTransactionType(trim($transaction_type));
+                if (is_array($transaction_type)) {
+                    $genesis->request()->addTransactionType(
+                        $transaction_type['name'],
+                        $transaction_type['parameters']
+                    );
+                } else {
+                    $genesis->request()->addTransactionType(
+                        $transaction_type
+                    );
+                }
+
             }
 
             if (in_array(\XLite\Core\Session::getInstance()->getLanguage()->getCode(), $this->supported_languages)) {
@@ -577,8 +587,6 @@ class EComProcessingCheckout extends \XLite\Model\Payment\Base\Online
                 'status' => $status,
             )
         );
-
-        exit(0);
     }
 
 
@@ -588,7 +596,7 @@ class EComProcessingCheckout extends \XLite\Model\Payment\Base\Online
      * @param mixed $transaction Backend transaction
      * @param \stdClass $responseObj Genesis Response
      */
-    protected function updateTransactionData($transaction = null, $responseObj)
+    protected function updateTransactionData($transaction, $responseObj)
     {
         foreach ($this->defineSavedData() as $key => $name) {
             if (isset($responseObj->$key)) {
@@ -737,8 +745,14 @@ class EComProcessingCheckout extends \XLite\Model\Payment\Base\Online
             case \Genesis\API\Constants\Transaction\Types::AUTHORIZE_3D:
                 $status = \XLite\Model\Order\Status\Payment::STATUS_AUTHORIZED;
                 break;
+            case \Genesis\API\Constants\Transaction\Types::ABNIDEAL:
+            case \Genesis\API\Constants\Transaction\Types::CASHU:
+            case \Genesis\API\Constants\Transaction\Types::NETELLER:
+            case \Genesis\API\Constants\Transaction\Types::PAYSAFECARD:
+            case \Genesis\API\Constants\Transaction\Types::PPRO:
             case \Genesis\API\Constants\Transaction\Types::SALE:
             case \Genesis\API\Constants\Transaction\Types::SALE_3D:
+            case \Genesis\API\Constants\Transaction\Types::SOFORT:
                 $status = ($partialFlag)
                     ? \XLite\Model\Order\Status\Payment::STATUS_PART_PAID
                     : \XLite\Model\Order\Status\Payment::STATUS_PAID;
@@ -778,8 +792,14 @@ class EComProcessingCheckout extends \XLite\Model\Payment\Base\Online
                     ? \XLite\Model\Payment\BackendTransaction::TRAN_TYPE_CAPTURE_PART
                     : \XLite\Model\Payment\BackendTransaction::TRAN_TYPE_CAPTURE;
                 break;
+            case \Genesis\API\Constants\Transaction\Types::ABNIDEAL:
+            case \Genesis\API\Constants\Transaction\Types::CASHU:
+            case \Genesis\API\Constants\Transaction\Types::NETELLER:
+            case \Genesis\API\Constants\Transaction\Types::PAYSAFECARD:
+            case \Genesis\API\Constants\Transaction\Types::PPRO:
             case \Genesis\API\Constants\Transaction\Types::SALE:
             case \Genesis\API\Constants\Transaction\Types::SALE_3D:
+            case \Genesis\API\Constants\Transaction\Types::SOFORT:
                 $status = \XLite\Model\Payment\BackendTransaction::TRAN_TYPE_SALE;
                 break;
             case \Genesis\API\Constants\Transaction\Types::REFUND:
@@ -842,7 +862,7 @@ class EComProcessingCheckout extends \XLite\Model\Payment\Base\Online
      */
     protected function redirectToURL($url)
     {
-        static::log('redirectToURL: ' . $url);
+        static::log('redirectToURL(): ' . $url);
 
         $page = <<<HTML
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -944,14 +964,17 @@ HTML;
 
         if ($this->getSetting('transaction_types')) {
             $types = array(
-                'transaction_types' => json_decode(
-                    $this->getSetting('transaction_types')
-                )
+                'transaction_types' => $this->getCheckoutTransactionTypes()
             );
         } else {
             // Fallback to authorize
             $types = array(
-                'transaction_types' => array('authorize', 'sale', 'authorize3d', 'sale3d')
+                'transaction_types' => array(
+                    \Genesis\API\Constants\Transaction\Types::AUTHORIZE,
+                    \Genesis\API\Constants\Transaction\Types::AUTHORIZE_3D,
+                    \Genesis\API\Constants\Transaction\Types::SALE,
+                    \Genesis\API\Constants\Transaction\Types::SALE_3D
+                )
             );
         }
 
@@ -1107,6 +1130,53 @@ HTML;
     }
 
     /**
+     * Get the selected Checkout transaction types
+     *
+     * @return array
+     */
+    protected function getCheckoutTransactionTypes()
+    {
+        $processed_list = array();
+
+        $selected_types = json_decode(
+            $this->getSetting('transaction_types')
+        );
+
+        $alias_map = array(
+            \Genesis\API\Constants\Payment\Methods::EPS         =>
+                \Genesis\API\Constants\Transaction\Types::PPRO,
+            \Genesis\API\Constants\Payment\Methods::GIRO_PAY    =>
+                \Genesis\API\Constants\Transaction\Types::PPRO,
+            \Genesis\API\Constants\Payment\Methods::PRZELEWY24  =>
+                \Genesis\API\Constants\Transaction\Types::PPRO,
+            \Genesis\API\Constants\Payment\Methods::QIWI        =>
+                \Genesis\API\Constants\Transaction\Types::PPRO,
+            \Genesis\API\Constants\Payment\Methods::SAFETY_PAY  =>
+                \Genesis\API\Constants\Transaction\Types::PPRO,
+            \Genesis\API\Constants\Payment\Methods::TELEINGRESO =>
+                \Genesis\API\Constants\Transaction\Types::PPRO,
+            \Genesis\API\Constants\Payment\Methods::TRUST_PAY   =>
+                \Genesis\API\Constants\Transaction\Types::PPRO,
+        );
+
+        foreach ($selected_types as $selected_type) {
+            if (array_key_exists($selected_type, $alias_map)) {
+                $transaction_type = $alias_map[$selected_type];
+
+                $processed_list[$transaction_type]['name'] = $transaction_type;
+
+                $processed_list[$transaction_type]['parameters'][] = array(
+                    'payment_method' => $selected_type
+                );
+            } else {
+                $processed_list[] = $selected_type;
+            }
+        }
+
+        return $processed_list;
+    }
+
+    /**
      * Load Genesis library
      *
      * @throws \Exception
@@ -1126,14 +1196,16 @@ HTML;
         }
 
         // Endpoint
-        \Genesis\Config::setEndpoint('ecomprocessing');
+        \Genesis\Config::setEndpoint(\Genesis\API\Constants\Endpoints::ECOMPROCESSING);
         // Username
         \Genesis\Config::setUsername($this->getSetting('username'));
         // Password
         \Genesis\Config::setPassword($this->getSetting('secret'));
         // Environment
         \Genesis\Config::setEnvironment(
-            $this->isTestMode($this->transaction->getPaymentMethod()) ? 'sandbox' : 'production'
+            $this->isTestMode($this->transaction->getPaymentMethod()) ?
+                \Genesis\API\Constants\Environments::STAGING :
+                \Genesis\API\Constants\Environments::PRODUCTION
         );
     }
 

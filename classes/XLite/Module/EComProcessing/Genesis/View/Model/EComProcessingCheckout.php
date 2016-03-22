@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2015 E-Comprocessing™
+ * Copyright (C) 2016 E-Comprocessing™
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  *
  * @author      E-ComProcessing
- * @copyright   2015 E-Comprocessing™
+ * @copyright   2016 E-Comprocessing™
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU General Public License, version 2 (GPL-2.0)
  */
 
@@ -61,19 +61,24 @@ class EComProcessingCheckout extends \XLite\View\Model\AModel
         'mode' => array(
             self::SCHEMA_CLASS    => '\XLite\View\FormField\Select\TestLiveMode',
             self::SCHEMA_LABEL    => 'Test/Live mode',
-            self::SCHEMA_HELP     => 'You can select which environment to process your requests. Test is recommended for initial setup',
+            self::SCHEMA_HELP     =>
+                'You can select which environment to process your requests. Test is recommended for initial setup',
             self::SCHEMA_REQUIRED => false,
         ),
         'prefix' => array(
             self::SCHEMA_CLASS    => '\XLite\View\FormField\Input\Text',
             self::SCHEMA_LABEL    => 'Order id prefix',
-            self::SCHEMA_HELP     => 'You can define an order id prefix, which would precede each order number in your shop, to make it unique',
+            // @codingStandardsIgnoreStart
+            self::SCHEMA_HELP     =>
+                'You can define a prefix to each order to identify them easily in your shop',
+            // @codingStandardsIgnoreEnd
             self::SCHEMA_REQUIRED => false,
         ),
         'transaction_types' => array(
             self::SCHEMA_CLASS    => '\XLite\Module\EComProcessing\Genesis\View\FormField\Select\TransactionTypes',
             self::SCHEMA_LABEL    => 'Transaction types',
-            self::SCHEMA_HELP     => 'You can select which transaction types can be attempted from the Gateway upon processing',
+            self::SCHEMA_HELP     =>
+                'You can select which transaction types can be attempted (from the Gateway) upon customer processing',
             self::SCHEMA_REQUIRED => false,
         ),
     );
