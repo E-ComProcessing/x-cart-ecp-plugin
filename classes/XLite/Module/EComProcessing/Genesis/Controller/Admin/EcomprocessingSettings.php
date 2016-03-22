@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2015 E-Comprocessing™
+ * Copyright (C) 2016 E-Comprocessing™
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -12,10 +12,11 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * @author      E-ComProcessing™
- * @copyright   2015 E-Comprocessing™
+ * @author      E-ComProcessing
+ * @copyright   2016 E-Comprocessing™
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU General Public License, version 2 (GPL-2.0)
  */
+
 namespace XLite\Module\EComProcessing\Genesis\Controller\Admin;
 
 /**
@@ -44,7 +45,7 @@ class EcomprocessingSettings extends \XLite\Controller\Admin\AAdmin
      */
     public function getTitle()
     {
-        return static::t('E-ComProcessing Settings');
+        return static::t('E-ComProcessing settings');
     }
 
     /**
@@ -63,7 +64,7 @@ class EcomprocessingSettings extends \XLite\Controller\Admin\AAdmin
     /**
      * Get method id from request
      *
-     * @return integer
+     * @return int
      */
     public function getMethodId()
     {

@@ -21,8 +21,8 @@
  * @license     http://opensource.org/licenses/MIT The MIT License
  */
 
-if (!class_exists('\GenesisAutoLoader', false)) {
+if (!class_exists('\Genesis\AutoLoader', false)) {
     require_once __DIR__ . DIRECTORY_SEPARATOR . 'composer' . DIRECTORY_SEPARATOR . 'autoload_real.php';
 
-    return GenesisAutoLoader::getLoader();
+    return \Genesis\AutoLoader::getLoader();
 }

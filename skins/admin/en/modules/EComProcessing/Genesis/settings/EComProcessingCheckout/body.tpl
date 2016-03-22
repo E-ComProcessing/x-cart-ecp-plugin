@@ -1,7 +1,7 @@
 {**
  * E-ComProcessing Settings
  *
- * Copyright (C) 2015 E-Comprocessing™
+ * Copyright (C) 2016 E-Comprocessing™
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  *
  * @author      E-ComProcessing™
- * @copyright   2015 E-Comprocessing™
+ * @copyright   2016 E-Comprocessing™
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU General Public License, version 2 (GPL-2.0)
  *}
 
