@@ -28,6 +28,8 @@ XLite\Model\Payment\Method:
         description: 'E-ComProcessing offers a secure way to pay for your order, using Credit/Debit/Prepaid Card, e-Wallet or Vouchers.'
         altAdminDescription: 'Accept Credit/Debit Cards or Alternative Payments (e-Wallet, Prepaid-Cards, Vouchers etc.) via Payment Form on E-ComProcessing PCI-certified servers.'
     settings:
+      - name: title
+        value: 'E-ComProcessing Checkout'
       - name: username
       - name: secret
       - name: mode
@@ -36,3 +38,26 @@ XLite\Model\Payment\Method:
         value: store_
       - name: transaction_types
         value: '["authorize", "sale"]'
+
+  - service_name: EComProcessingDirect
+    class: Module\EComProcessing\Genesis\Model\Payment\Processor\EComProcessingDirect
+    type: C
+    orderby: -10650
+    translations:
+      - code: en
+        name: 'E-ComProcessing Direct'
+        title: 'E-ComProcessing Direct'
+        description: 'E-ComProcessing offers a secure way to pay for your order, using Credit/Debit Card'
+        altAdminDescription: 'Direct API - allow customers to enter their CreditCard information on your website. Note: You need PCI-DSS certificate in order to enable this payment method.'
+    settings:
+      - name: title
+        value: 'E-ComProcessing Direct'
+      - name: username
+      - name: secret
+      - name: token
+      - name: mode
+        value: test
+      - name: prefix
+        value: store_
+      - name: transaction_type
+        value: 'authorize'

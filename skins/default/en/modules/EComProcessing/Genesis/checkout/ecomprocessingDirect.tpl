@@ -1,5 +1,5 @@
 {**
- * EComProcessingCheckout Template
+ * EComProcessingDirect Template
  *
  * Copyright (C) 2016 E-ComProcessing
  *
@@ -19,11 +19,11 @@
  *}
 
 <span class="payment-title">{getMethodCheckoutLabel(method)}</span>
-<img class="ecomprocessing-checkout-logo" src="images/../modules/EComProcessing/Genesis/images/ecomprocessing_checkout.png" alt="{method.getName()}" title="{method.getName()}" />
+<img class="ecomprocessing-direct-logo" src="images/../modules/EComProcessing/Genesis/images/ecomprocessing_direct.png" alt="{method.getName()}" title="{method.getName()}" />
 <div IF="method.getDescription()" class="payment-description ecomprocessing-payment-description">{method.getDescription()}</div>
 
 <style type="text/css">
-    .ecomprocessing-checkout-logo {
+    .ecomprocessing-direct-logo {
         max-height: 25pt;
     }
 

@@ -45,7 +45,51 @@ class EcomprocessingSettings extends \XLite\Controller\Admin\AAdmin
      */
     public function getTitle()
     {
-        return static::t('E-ComProcessing settings');
+        return static::t($this->getPaymentMethod()->getTitle() . ' Settings');
+    }
+
+    /**
+     * Get Should Display Message While Configuring the Module
+     *
+     * @return boolean
+     */
+    public function getShouldDisplayMessage()
+    {
+        return ($this->getPaymentMethod()->getServiceName() == \XLite\Module\EComProcessing\Genesis\Main::ECP_DIRECT);
+    }
+
+    /**
+     * Returns message style class
+     *
+     * @return string
+     */
+    public function getDisplayMessageClass()
+    {
+        return \XLite\Module\EComProcessing\Genesis\Main::isStoreOverSecuredConnection()
+            ? 'alert alert-warning'
+            : 'alert alert-danger';
+    }
+
+    /**
+     * Returns message text
+     *
+     * @return string
+     */
+    public function getDisplayMessageText()
+    {
+        return \XLite\Module\EComProcessing\Genesis\Main::isStoreOverSecuredConnection()
+            ? 'HTTPS connection is enabled. You need PCI-DSS certificate in order to use this payment method'
+            : 'This payment method requires HTTPS connection in order to process payment data! ';
+    }
+
+    /**
+     * Returns Author Website
+     *
+     * @return string
+     */
+    public function getAuthorWebSite()
+    {
+        return \XLite\Module\EComProcessing\Genesis\Main::getAuthorWebsite();
     }
 
     /**
@@ -53,11 +97,11 @@ class EcomprocessingSettings extends \XLite\Controller\Admin\AAdmin
      *
      * @return string
      */
-    protected function getModelFormClass()
+    public function getModelFormClass()
     {
         return sprintf(
             '\XLite\Module\EComProcessing\Genesis\View\Model\%s',
-            \XLite\Module\EComProcessing\Genesis\Main::ECP_CHECKOUT
+            $this->getPaymentMethod()->getServiceName()
         );
     }
 

@@ -28,6 +28,8 @@ abstract class Main extends \XLite\Module\AModule
      * Name of the E-ComProcessing Checkout method
      */
     const ECP_CHECKOUT = 'EComProcessingCheckout';
+    const ECP_DIRECT = 'EComProcessingDirect';
+
 
     /**
      * Author name
@@ -37,6 +39,16 @@ abstract class Main extends \XLite\Module\AModule
     public static function getAuthorName()
     {
         return 'E-ComProcessing';
+    }
+
+    /**
+     * Author Website
+     *
+     * @return string
+     */
+    public static function getAuthorWebsite()
+    {
+        return 'http://e-comprocessing.com';
     }
 
     /**
@@ -66,7 +78,7 @@ abstract class Main extends \XLite\Module\AModule
      */
     public static function getMinorVersion()
     {
-        return '2';
+        return '3';
     }
 
     /**
@@ -76,7 +88,7 @@ abstract class Main extends \XLite\Module\AModule
      */
     public static function getDescription()
     {
-        return 'Allows you to receive credit-card payments via E-Comprocessing\'s - Genesis payment gateway.';
+        return 'Accept payments through E-ComProcessing\'s Payment Gateway - Genesis';
     }
 
     /**
@@ -133,5 +145,39 @@ abstract class Main extends \XLite\Module\AModule
         }
 
         return $result[$index];
+    }
+
+    /**
+     * Returns true if EComProcessingDirect payment is enabled
+     *
+     * @param \XLite\Model\Cart $order Cart object OPTIONAL
+     *
+     * @return boolean
+     */
+    public static function isEComProcessingDirectEnabled($order = null)
+    {
+        static $result;
+
+        $index = isset($order) ? 1 : 0;
+
+        if (!isset($result[$index])) {
+            $paymentMethod = self::getPaymentMethod(self::ECP_DIRECT, true);
+
+            if ($order && $result[$index]) {
+                $result[$index] = $paymentMethod->getProcessor()->isApplicable($order, $paymentMethod);
+            }
+        }
+
+        return $result[$index];
+    }
+
+    /**
+     * Check - SSL Enabled
+     *
+     * @return boolean
+     */
+    public static function isStoreOverSecuredConnection()
+    {
+        return \XLite\Core\Config::getInstance()->Security->customer_security;
     }
 }

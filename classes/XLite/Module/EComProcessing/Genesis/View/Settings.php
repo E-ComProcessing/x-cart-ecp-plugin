@@ -41,20 +41,6 @@ class Settings extends \XLite\View\Dialog
     }
 
     /**
-     * Register JS files
-     *
-     * @return array
-     */
-    public function getJSFiles()
-    {
-        $list = parent::getJSFiles();
-
-        $list[] = $this->getDir() . '/script.js';
-
-        return $list;
-    }
-
-    /**
      * Register CSS files
      *
      * @return array
@@ -63,7 +49,7 @@ class Settings extends \XLite\View\Dialog
     {
         $list = parent::getCSSFiles();
 
-        $list[] = 'modules/EComProcessing/Genesis/settings/style.css';
+        $list[] = 'modules/EComProcessing/Genesis/css/style.css';
 
         return $list;
     }
@@ -75,7 +61,7 @@ class Settings extends \XLite\View\Dialog
      */
     protected function getDir()
     {
-        return sprintf('modules/EComProcessing/Genesis/settings/%s', $this->getMethodServiceName());
+        return 'modules/EComProcessing/Genesis/settings';
     }
 
     /**
