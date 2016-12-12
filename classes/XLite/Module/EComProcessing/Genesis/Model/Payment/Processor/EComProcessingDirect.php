@@ -238,13 +238,17 @@ class EComProcessingDirect extends \XLite\Module\EComProcessing\Genesis\Model\Pa
                     case \Genesis\API\Constants\Transaction\States::APPROVED:
                         $status = self::COMPLETED;
                         $this->handleTransactionResponse($responseObject, false);
-                        \XLite\Core\TopMessage::getInstance()->addInfo($responseObject->message);
+                        \XLite\Core\TopMessage::getInstance()->addInfo(
+                            $responseObject->message
+                        );
                         break;
 
                     case \Genesis\API\Constants\Transaction\States::PENDING_ASYNC:
                         $status = self::PROLONGATION;
                         $this->handleTransactionResponse($responseObject, true);
-                        $this->redirectToURL($responseObject->redirect_url);
+                        $this->redirectToURL(
+                            $responseObject->redirect_url)
+                        ;
                         break;
 
                     default:
@@ -254,6 +258,10 @@ class EComProcessingDirect extends \XLite\Module\EComProcessing\Genesis\Model\Pa
                             static::t($responseObject->message),
                             null,
                             static::FAILED
+                        );
+
+                        $this->transaction->setNote(
+                            static::t($responseObject->message)
                         );
                 }
             } else {
@@ -267,20 +275,24 @@ class EComProcessingDirect extends \XLite\Module\EComProcessing\Genesis\Model\Pa
             }
 
         } catch (\Genesis\Exceptions\ErrorAPI $e) {
+            $errorMessage = $e->getMessage() ?: static::t('Invalid data, please check your input.');
             $this->transaction->setDataCell(
                 'status',
-                $e->getMessage() ?: static::t('Invalid data, please check your input.'),
+                $errorMessage,
                 null,
                 static::FAILED
             );
+            $this->transaction->setNote($errorMessage);
             $status = self::FAILED;
-        } catch (\Exception $exception) {
+        } catch (\Exception $e) {
+            $errorMessage = static::t('Failed to initialize payment session, please contact support. ' . $e->getMessage());
             $this->transaction->setDataCell(
                 'status',
-                static::t('Failed to initialize payment session, please contact support.'),
+                $errorMessage,
                 null,
                 static::FAILED
             );
+            $this->transaction->setNote($errorMessage);
             $status = self::FAILED;
         }
 
@@ -391,20 +403,32 @@ class EComProcessingDirect extends \XLite\Module\EComProcessing\Genesis\Model\Pa
      *
      * $param \XLite\Model\Payment\Method $method
      *
-     * @return string
+     * @return string|null
      */
     public function getCheckoutTemplate(\XLite\Model\Payment\Method $method)
     {
-        return parent::getCheckoutTemplate($method) . 'ecomprocessingDirect.tpl';
+        if ($this->getIsCoreVersion52()) {
+            return parent::getCheckoutTemplate($method) . 'ecomprocessingDirect.tpl';
+        } elseif ($this->getIsCoreVersion53()) {
+            return parent::getCheckoutTemplate($method) . 'ecomprocessingDirect.twig';
+        }
+
+        return null;
     }
 
     /**
      * Get input template
      *
-     * @return string|void
+     * @return string|null
      */
     public function getInputTemplate()
     {
-        return 'modules/EComProcessing/Genesis/payment/ecomprocessingDirectInput.tpl';
+        if ($this->getIsCoreVersion52()) {
+            return 'modules/EComProcessing/Genesis/payment/ecomprocessingDirectInput.tpl';
+        } elseif ($this->getIsCoreVersion53()) {
+            return 'modules/EComProcessing/Genesis/payment/ecomprocessingDirectInput.twig';
+        }
+
+        return null;
     }
 }

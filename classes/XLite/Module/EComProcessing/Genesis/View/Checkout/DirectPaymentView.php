@@ -27,10 +27,16 @@ class DirectPaymentView extends \XLite\View\AView
     /**
      * Return widget default template
      *
-     * @return string
+     * @return string|null
      */
     protected function getDefaultTemplate()
     {
-        return 'modules/EComProcessing/Genesis/payment/ecomprocessingDirect.tpl';
+        if (\XLite\Module\EComProcessing\Genesis\Main::getIsCoreVersion52()) {
+            return 'modules/EComProcessing/Genesis/payment/ecomprocessingDirect.tpl';
+        } elseif (\XLite\Module\EComProcessing\Genesis\Main::getIsCoreVersion53()) {
+            return 'modules/EComProcessing/Genesis/payment/ecomprocessingDirect.twig';
+        }
+
+        return null;
     }
 }

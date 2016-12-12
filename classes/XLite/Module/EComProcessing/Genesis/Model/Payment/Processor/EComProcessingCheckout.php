@@ -99,23 +99,38 @@ class EComProcessingCheckout extends \XLite\Module\EComProcessing\Genesis\Model\
 
             $genesis->execute();
 
-            $status = self::PROLONGATION;
+            $gatewayResponseObject = $genesis->response()->getResponseObject();
 
-            $this->redirectToURL($genesis->response()->getResponseObject()->redirect_url);
+            if (isset($gatewayResponseObject->redirect_url)) {
+                $status = self::PROLONGATION;
+
+                $this->redirectToURL($genesis->response()->getResponseObject()->redirect_url);
+            } else {
+                $errorMessage =
+                    isset($gatewayResponseObject->message)
+                        ? $gatewayResponseObject->message
+                        : '';
+
+                throw new \Exception ($errorMessage);
+            }
         } catch (\Genesis\Exceptions\ErrorAPI $e) {
+            $errorMessage = $e->getMessage() ?: static::t('Invalid data, please check your input.');
             $this->transaction->setDataCell(
                 'status',
-                $e->getMessage() ?: static::t('Invalid data, please check your input.'),
+                $errorMessage,
                 null,
                 static::FAILED
             );
-        } catch (\Exception $exception) {
+            $this->transaction->setNote($errorMessage);
+        } catch (\Exception $e) {
+            $errorMessage = static::t('Failed to initialize payment session, please contact support. ' .$e->getMessage());
             $this->transaction->setDataCell(
                 'status',
-                static::t('Failed to initialize payment session, please contact support.'),
+                $errorMessage,
                 null,
                 static::FAILED
             );
+            $this->transaction->setNote($errorMessage);
         }
 
         return $status;
@@ -345,10 +360,16 @@ class EComProcessingCheckout extends \XLite\Module\EComProcessing\Genesis\Model\
      *
      * $param \XLite\Model\Payment\Method $method
      *
-     * @return string
+     * @return string|null
      */
     public function getCheckoutTemplate(\XLite\Model\Payment\Method $method)
     {
-        return parent::getCheckoutTemplate($method) . 'ecomprocessingCheckout.tpl';
+        if ($this->getIsCoreVersion52()) {
+            return parent::getCheckoutTemplate($method) . 'ecomprocessingCheckout.tpl';
+        } elseif ($this->getIsCoreVersion53()) {
+            return parent::getCheckoutTemplate($method) . 'ecomprocessingCheckout.twig';
+        }
+
+        return null;
     }
 }
