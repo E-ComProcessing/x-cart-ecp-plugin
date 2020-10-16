@@ -12,24 +12,24 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
-# @author      E-ComProcessing
+# @author      E-Comprocessing
 # @copyright   2016 E-Comprocessing™
 # @license     http://opensource.org/licenses/gpl-2.0.php GNU General Public License, version 2 (GPL-2.0)
 
 XLite\Model\Payment\Method:
-  - service_name: EComProcessingCheckout
+  - service_name: EComprocessingCheckout
     class: Module\EComProcessing\Genesis\Model\Payment\Processor\EComProcessingCheckout
     type: C
     orderby: -10600
     translations:
       - code: en
-        name: 'E-ComProcessing Checkout'
-        title: 'E-ComProcessing Checkout'
-        description: 'E-ComProcessing offers a secure way to pay for your order, using Credit/Debit/Prepaid Card, e-Wallet or Vouchers.'
-        altAdminDescription: 'Accept Credit/Debit Cards or Alternative Payments (e-Wallet, Prepaid-Cards, Vouchers etc.) via Payment Form on E-ComProcessing PCI-certified servers.'
+        name: 'E-Comprocessing Checkout'
+        title: 'E-Comprocessing Checkout'
+        description: 'E-Comprocessing offers a secure way to pay for your order, using Credit/Debit/Prepaid Card, e-Wallet or Vouchers.'
+        altAdminDescription: 'Accept Credit/Debit Cards or Alternative Payments (e-Wallet, Prepaid-Cards, Vouchers etc.) via Payment Form on E-Comprocessing PCI-certified servers.'
     settings:
       - name: title
-        value: 'E-ComProcessing Checkout'
+        value: 'E-Comprocessing Checkout'
       - name: username
       - name: secret
       - name: mode
@@ -39,19 +39,19 @@ XLite\Model\Payment\Method:
       - name: transaction_types
         value: '["authorize", "sale"]'
 
-  - service_name: EComProcessingDirect
+  - service_name: EComprocessingDirect
     class: Module\EComProcessing\Genesis\Model\Payment\Processor\EComProcessingDirect
     type: C
     orderby: -10650
     translations:
       - code: en
-        name: 'E-ComProcessing Direct'
-        title: 'E-ComProcessing Direct'
-        description: 'E-ComProcessing offers a secure way to pay for your order, using Credit/Debit Card'
+        name: 'E-Comprocessing Direct'
+        title: 'E-Comprocessing Direct'
+        description: 'E-Comprocessing offers a secure way to pay for your order, using Credit/Debit Card'
         altAdminDescription: 'Direct API - allow customers to enter their CreditCard information on your website. Note: You need PCI-DSS certificate in order to enable this payment method.'
     settings:
       - name: title
-        value: 'E-ComProcessing Direct'
+        value: 'E-Comprocessing Direct'
       - name: username
       - name: secret
       - name: token

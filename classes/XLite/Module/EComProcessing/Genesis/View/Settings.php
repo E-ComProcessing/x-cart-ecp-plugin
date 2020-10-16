@@ -12,7 +12,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * @author      E-ComProcessing
+ * @author      E-Comprocessing
  * @copyright   2016 E-Comprocessing™
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU General Public License, version 2 (GPL-2.0)
  */
@@ -20,7 +20,7 @@
 namespace XLite\Module\EComProcessing\Genesis\View;
 
 /**
- * E-ComProcessing per-method settings page
+ * E-Comprocessing per-method settings page
  *
  * @ListChild (list="admin.center", zone="admin")
  */

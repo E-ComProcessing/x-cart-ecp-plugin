@@ -12,7 +12,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * @author      E-ComProcessing
+ * @author      E-Comprocessing
  * @copyright   2016 E-Comprocessing™
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU General Public License, version 2 (GPL-2.0)
  */
@@ -20,15 +20,15 @@
 namespace XLite\Module\EComProcessing\Genesis;
 
 /**
- * E-ComProcessing Module
+ * E-Comprocessing Module
  */
 abstract class Main extends \XLite\Module\AModule
 {
     /**
-     * Name of the E-ComProcessing Checkout method
+     * Name of the E-Comprocessing Checkout method
      */
-    const ECP_CHECKOUT = 'EComProcessingCheckout';
-    const ECP_DIRECT = 'EComProcessingDirect';
+    const ECP_CHECKOUT = 'EComprocessingCheckout';
+    const ECP_DIRECT = 'EComprocessingDirect';
 
 
     /**
@@ -38,7 +38,7 @@ abstract class Main extends \XLite\Module\AModule
      */
     public static function getAuthorName()
     {
-        return 'E-ComProcessing';
+        return 'E-Comprocessing';
     }
 
     /**
@@ -58,7 +58,7 @@ abstract class Main extends \XLite\Module\AModule
      */
     public static function getModuleName()
     {
-        return 'E-ComProcessing';
+        return 'E-Comprocessing';
     }
 
     /**
@@ -78,7 +78,7 @@ abstract class Main extends \XLite\Module\AModule
      */
     public static function getMinorVersion()
     {
-        return '3';
+        return '4';
     }
 
     /**
@@ -88,7 +88,7 @@ abstract class Main extends \XLite\Module\AModule
      */
     public static function getDescription()
     {
-        return 'Accept payments through E-ComProcessing\'s Payment Gateway - Genesis';
+        return 'Accept payments through E-Comprocessing\'s Payment Gateway - Genesis';
     }
 
     /**
