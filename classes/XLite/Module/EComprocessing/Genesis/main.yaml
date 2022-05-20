@@ -1,0 +1,11 @@
+version: 5.4.1.5
+type: payment
+authorName: 'E-Comprocessing Ltd.'
+moduleName: ecomprocessing
+description: 'Accept payments through ecomprocessing''s Payment Gateway - Genesis'
+minorRequiredCoreVersion: 0
+dependsOn: {  }
+incompatibleWith: {  }
+skins: {  }
+showSettingsForm: false
+canDisable: true
