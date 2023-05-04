@@ -25,11 +25,9 @@ namespace XLite\Module\Ecomprocessing\Genesis;
 abstract class Main extends \XLite\Module\AModule
 {
     /**
-     * Name of the E-Comprocessing Checkout method
+     * Name of the ecomprocessing Checkout method
      */
     const EMP_CHECKOUT = 'EcomprocessingCheckout';
-    const EMP_DIRECT = 'EcomprocessingDirect';
-
 
     /**
      * Author name
@@ -78,7 +76,7 @@ abstract class Main extends \XLite\Module\AModule
      */
     public static function getMinorVersion()
     {
-        return '1';
+        return '3';
     }
 
     /**
@@ -88,7 +86,7 @@ abstract class Main extends \XLite\Module\AModule
      */
     public static function getBuildVersion()
     {
-        return '7';
+        return '0';
     }
 
     /**
@@ -148,30 +146,6 @@ abstract class Main extends \XLite\Module\AModule
 
         if (!isset($result[$index])) {
             $paymentMethod = self::getPaymentMethod(self::EMP_CHECKOUT, true);
-
-            if ($order && $result[$index]) {
-                $result[$index] = $paymentMethod->getProcessor()->isApplicable($order, $paymentMethod);
-            }
-        }
-
-        return $result[$index];
-    }
-
-    /**
-     * Returns true if ecomprocessingDirect payment is enabled
-     *
-     * @param \XLite\Model\Cart $order Cart object OPTIONAL
-     *
-     * @return boolean
-     */
-    public static function isEComprocessingDirectEnabled($order = null)
-    {
-        static $result;
-
-        $index = isset($order) ? 1 : 0;
-
-        if (!isset($result[$index])) {
-            $paymentMethod = self::getPaymentMethod(self::EMP_DIRECT, true);
 
             if ($order && $result[$index]) {
                 $result[$index] = $paymentMethod->getProcessor()->isApplicable($order, $paymentMethod);

@@ -4,4 +4,4 @@ Version 5.4.0.3
 
 * Updated GenesisPHP v1.18.4
     * added new transaction type **UPI**
-* Updated the transaction types support list for **E-Comprocessing Checkout Transaction Types**
+* Updated the transaction types support list for **ecomprocessing Checkout Transaction Types**

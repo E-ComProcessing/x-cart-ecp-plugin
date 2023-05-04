@@ -23,13 +23,13 @@ XLite\Model\Payment\Method:
     orderby: -10600
     translations:
       - code: en
-        name: 'E-Comprocessing Checkout'
-        title: 'E-Comprocessing Checkout'
-        description: 'E-Comprocessing offers a secure way to pay for your order, using Credit/Debit/Prepaid Card, e-Wallet or Vouchers.'
+        name: 'ecomprocessing Checkout'
+        title: 'ecomprocessing Checkout'
+        description: 'ecomprocessing offers a secure way to pay for your order, using Credit/Debit/Prepaid Card, e-Wallet or Vouchers.'
         altAdminDescription: 'Accept Credit/Debit Cards or Alternative Payments (e-Wallet, Prepaid-Cards, Vouchers etc.) via Payment Form on ecomprocessing PCI-certified servers.'
     settings:
       - name: title
-        value: 'E-Comprocessing Checkout'
+        value: 'ecomprocessing Checkout'
       - name: username
       - name: secret
       - name: mode
@@ -42,26 +42,11 @@ XLite\Model\Payment\Method:
         value: '["none"]'
       - name: wpf_tokenization
         value: N
-
-  - service_name: EcomprocessingDirect
-    class: Module\Ecomprocessing\Genesis\Model\Payment\Processor\EcomprocessingDirect
-    type: C
-    orderby: -10650
-    translations:
-      - code: en
-        name: 'E-Comprocessing Direct'
-        title: 'E-Comprocessing Direct'
-        description: 'E-Comprocessing offers a secure way to pay for your order, using Credit/Debit Card'
-        altAdminDescription: 'Direct API - allow customers to enter their CreditCard information on your website. Note: You need PCI-DSS certificate in order to enable this payment method.'
-    settings:
-      - name: title
-        value: 'E-Comprocessing Direct'
-      - name: username
-      - name: secret
-      - name: token
-      - name: mode
-        value: test
-      - name: prefix
-        value: store-
-      - name: transaction_type
-        value: 'authorize'
+      - name: wpf_3dsv2_options
+        value: Y
+      - name: challenge_indicator
+        value: 'no_preference'
+      - name: sca_exemption
+        value: 'low_risk'
+      - name: sca_exemption_amount
+        value: '100'
