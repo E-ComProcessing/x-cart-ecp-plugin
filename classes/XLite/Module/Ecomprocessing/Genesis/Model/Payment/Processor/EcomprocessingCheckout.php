@@ -239,6 +239,15 @@ class EcomprocessingCheckout extends \XLite\Module\Ecomprocessing\Genesis\Model\
                     );
                 }
                 break;
+            case \Genesis\API\Constants\Transaction\Types::PAYSAFECARD:
+                $userId     = Helper::getCurrentUserId();
+                $customerId = empty($userId) ?
+                     Helper::getCurrentUserIdHash($this->transaction->getOrder()->getPaymentTransactionId()) : $userId;
+
+                $parameters = array(
+                    'customer_id' => $customerId
+                );
+                break;
         }
 
         return $parameters;
@@ -473,8 +482,10 @@ class EcomprocessingCheckout extends \XLite\Module\Ecomprocessing\Genesis\Model\
         $processedList = array();
         $aliasMap      = array();
 
-        $selectedTypes = json_decode(
-            $this->getSetting('transaction_types')
+        $selectedTypes = $this->orderCardTransactionTypes(
+            json_decode(
+                $this->getSetting('transaction_types')
+            )
         );
 
         $pproSuffix = Helper::PPRO_TRANSACTION_SUFFIX;
@@ -652,5 +663,22 @@ class EcomprocessingCheckout extends \XLite\Module\Ecomprocessing\Genesis\Model\
     private function setPaymentMethodName()
     {
         $this->transaction->getOrder()->setPaymentMethodName(self::PAYMENT_METHOD_NAME);
+    }
+
+    /**
+     * Order transaction types with Card Transaction types in front
+     *
+     * @param array $selected_types Selected transaction types
+     * @return array
+     */
+    private function orderCardTransactionTypes($selected_types)
+    {
+        $custom_order = \Genesis\API\Constants\Transaction\Types::getCardTransactionTypes();
+
+        asort($selected_types);
+
+        $sorted_array = array_intersect($custom_order, $selected_types);
+
+        return array_merge($sorted_array, array_diff($selected_types, $sorted_array));
     }
 }
