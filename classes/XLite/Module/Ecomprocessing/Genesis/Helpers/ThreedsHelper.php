@@ -19,6 +19,8 @@
 
 namespace XLite\Module\Ecomprocessing\Genesis\Helpers;
 
+use DateInterval;
+use DateTime;
 use XLite\Core\CommonCell;
 use XLite\Module\Ecomprocessing\Genesis\Model\Payment\Processor\EcomprocessingCheckout;
 
@@ -197,7 +199,7 @@ class ThreedsHelper
      */
     public function countOrdersPeriod($period)
     {
-        $dateFrom             = (new \DateTime())->sub(new \DateInterval($period));
+        $dateFrom             = (new DateTime())->sub(new DateInterval($period));
         $searchCondition      = new CommonCell();
 
         $searchCondition->{\XLite\Model\Repo\Order::P_DATE} = array(
@@ -215,7 +217,8 @@ class ThreedsHelper
         }
 
         $searchCondition->{\XLite\Model\Repo\Order::P_PROFILE_ID}          = Helper::getCurrentUserId();
-        $searchCondition->{\XLite\Model\Repo\Order::P_PAYMENT_METHOD_NAME} = EcomprocessingCheckout::PAYMENT_METHOD_NAME;
+        $searchCondition->{\XLite\Model\Repo\Order::P_PAYMENT_METHOD_NAME} =
+            EcomprocessingCheckout::PAYMENT_METHOD_NAME;
 
         if ($period == self::ACTIVITY_6_MONTHS) {
             $paidStatus = \XLite\Model\Order\Status\Payment::getPaidStatuses();
@@ -236,7 +239,8 @@ class ThreedsHelper
     {
         $searchCondition                                                   = new CommonCell();
         $searchCondition->{\XLite\Model\Repo\Order::P_PROFILE_ID}          = Helper::getCurrentUserId();
-        $searchCondition->{\XLite\Model\Repo\Order::P_PAYMENT_METHOD_NAME} = EcomprocessingCheckout::PAYMENT_METHOD_NAME;
+        $searchCondition->{\XLite\Model\Repo\Order::P_PAYMENT_METHOD_NAME} =
+            EcomprocessingCheckout::PAYMENT_METHOD_NAME;
         $searchCondition->{\XLite\Model\Repo\AttributeOption::P_ORDER_BY}  = ['o.date', 'ASC'];
 
         return \XLite\Core\Database::getRepo('XLite\Model\Order')->search($searchCondition);

@@ -19,12 +19,12 @@
 
 namespace XLite\Module\Ecomprocessing\Genesis\View\FormField\Checkout\Select;
 
-use Genesis\API\Constants\Payment\Methods;
-use Genesis\API\Constants\Transaction\Types;
+use Genesis\Api\Constants\Payment\Methods;
+use Genesis\Api\Constants\Transaction\Types;
 use XLite\Module\Ecomprocessing\Genesis\Helpers\Helper;
-use Genesis\API\Constants\Transaction\Parameters\Mobile\ApplePay\PaymentTypes as ApplePaymentTypes;
-use Genesis\API\Constants\Transaction\Parameters\Mobile\GooglePay\PaymentTypes as GooglePaymentTypes;
-use Genesis\API\Constants\Transaction\Parameters\Wallets\PayPal\PaymentTypes as PayPalPaymentTypes;
+use Genesis\Api\Constants\Transaction\Parameters\Mobile\ApplePay\PaymentTypes as ApplePaymentTypes;
+use Genesis\Api\Constants\Transaction\Parameters\Mobile\GooglePay\PaymentTypes as GooglePaymentTypes;
+use Genesis\Api\Constants\Transaction\Parameters\Wallets\PayPal\PaymentTypes as PayPalPaymentTypes;
 
 /**
  * Multi-select handling
@@ -60,14 +60,6 @@ class TransactionTypes extends \XLite\View\FormField\Select\Multiple
 
         // Exclude Transaction Types
         $transactionTypes = array_diff($transactionTypes, $excludedTypes);
-
-        // Add PPRO types
-        $pproTypes = array_map(
-            function ($type) {
-                return $type . Helper::PPRO_TRANSACTION_SUFFIX;
-            },
-            Methods::getMethods()
-        );
 
         // Google Pay Payment Methods
         $googlePayTypes = array_map(
@@ -105,7 +97,6 @@ class TransactionTypes extends \XLite\View\FormField\Select\Multiple
 
         $transactionTypes = array_merge(
             $transactionTypes,
-            $pproTypes,
             $googlePayTypes,
             $payPalTypes,
             $applePayTypes
@@ -113,7 +104,7 @@ class TransactionTypes extends \XLite\View\FormField\Select\Multiple
         asort($transactionTypes);
 
         foreach ($transactionTypes as $type) {
-            $name = \Genesis\API\Constants\Transaction\Names::getName($type);
+            $name = \Genesis\Api\Constants\Transaction\Names::getName($type);
             if (!Types::isValidTransactionType($type)) {
                 $name = strtoupper($type);
             }
