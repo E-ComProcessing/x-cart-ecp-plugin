@@ -1,7 +1,7 @@
 {
     "name": "ecomprocessing/xcart-ecomprocessing-plugin",
     "description": "E-Comprocessing Gateway Module for X-Cart",
-    "version": "5.4.3.7",
+    "version": "5.4.4.0",
     "license": "GPL-2.0",
     "authors": [
         {
